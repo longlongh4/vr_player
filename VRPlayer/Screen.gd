@@ -2,7 +2,6 @@ extends MeshInstance
 
 var shaderMaterial
 onready var video_player = $VideoPlayer
-var player_ready = false
 
 func _ready():
 	var gdShader = Shader.new()
@@ -26,13 +25,7 @@ func _ready():
 	shaderMaterial = ShaderMaterial.new()
 	shaderMaterial.shader = gdShader
 	set_surface_material(0, shaderMaterial)
-	player_ready = true
-
-func _process(_delta):
-	if player_ready and video_player.is_playing():
-		var texture = video_player.get_video_texture()
-		if texture:
-			shaderMaterial.set_shader_param("movie", texture)
+	shaderMaterial.set_shader_param("movie", video_player.get_video_texture())
 
 func _on_VideoPlayer_finished():
 	video_player.play()
